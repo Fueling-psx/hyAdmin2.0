@@ -86,3 +86,7 @@ export default function request(url, options) {
       }
     });
 }
+
+export function post(url, params) {
+
+}

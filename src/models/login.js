@@ -3,27 +3,37 @@ import { fakeAccountLogin } from '../services/api';
 import { setAuthority } from '../utils/authority';
 import { reloadAuthorized } from '../utils/Authorized';
 
+const baseState = {
+  status: undefined,
+  message: '',
+
+}
+
 export default {
   namespace: 'login',
 
   state: {
-    status: undefined,
-    userInfo: {}
+    type: 'account',
+    account: {
+      ...baseState
+    },
+    mobile: {
+      ...baseState
+    },
+    submitting: false
   },
-
   effects: {
     *login({ payload }, { call, put }) {
       const response = yield call(fakeAccountLogin, payload);
-      console.log(response);
       yield put({
         type: 'changeLoginStatus',
-        payload: response,
+        payload: response
       });
       // Login successfully
-      // if (response.status === 'ok') {
-      //   reloadAuthorized();
+      if (response.status === 'ok') {
+        reloadAuthorized();
         yield put(routerRedux.push('/'));
-      // }
+      }
     },
     *logout(_, { put, select }) {
       try {
@@ -48,13 +58,16 @@ export default {
   },
 
   reducers: {
-    changeLoginStatus(state, { payload }) {
-      // setAuthority(payload.currentAuthority);
-      console.log(payload);
+    changeLoginStatus(state, { payload: {type, status, message }}) {
       return {
         ...state,
-        userInfo: payload.userInfo
+        [type]: {
+          ...state[type],
+          status,
+          message
+        }
       };
     },
+
   },
 };

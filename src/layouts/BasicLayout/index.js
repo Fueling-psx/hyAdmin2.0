@@ -1,5 +1,5 @@
 import UI from './UI';
-import { connect} from '../../app';
+import { connect} from 'app';
 
 export default connect(({ user, global, loading }) => ({
   currentUser: user.currentUser,
