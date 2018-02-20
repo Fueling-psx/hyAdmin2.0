@@ -5,6 +5,7 @@ import zhCN from 'antd/lib/locale-provider/zh_CN';
 import dynamic from 'dva/dynamic';
 import { getRouterData } from './common/router';
 import Authorized from './utils/Authorized';
+import {globalState} from "./app";
 import styles from './index.less';
 
 const { ConnectedRouter } = routerRedux;
@@ -12,6 +13,11 @@ const { AuthorizedRoute } = Authorized;
 dynamic.setDefaultLoadingComponent(() => {
   return <Spin size="large" className={styles.globalSpin} />;
 });
+
+const havePermission = function () {
+  return globalState.isLogin;
+};
+
 
 function RouterConfig({ history, app }) {
   const routerData = getRouterData(app);
@@ -28,7 +34,7 @@ function RouterConfig({ history, app }) {
           <AuthorizedRoute
             path="/"
             render={props => <BasicLayout {...props} />}
-            // authority={['admin', 'user']}
+            authority={havePermission}
             redirectPath="/user/login"
           />
         </Switch>

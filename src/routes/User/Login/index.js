@@ -3,11 +3,11 @@ import { message as Msg } from 'antd';
 import { routerRedux } from 'dva/router';
 
 import UI from './UI';
-import services from './services';
-import login from "../../../models/login";
+import services from 'services/user';
+import {reloadAuthorized} from 'utils/Authorized';
+import {reloadLoginStatus, initBasicData} from "../../../handler";
 
 export default connect(({login})=> {
-
   return {
     ...login
   };
@@ -33,15 +33,17 @@ export default connect(({login})=> {
 
     if (status === 'ok') {
       Msg.loading(message);
-
-      const {menuData, currentUser} = await services.getUserInfo();
-
-      changeModel('user', {currentUser});
-      changeModel('menu', {menuData});
-      //
-      Msg.destroy();
+      
+      // 更新登录态
+      await reloadLoginStatus();
+      // 更新准入权限
+      reloadAuthorized();
+      // 初始化数据
+      initBasicData({dispatch, getState})
+      // 路由跳转
       dispatch(routerRedux.push('/'));
-
+      
+      Msg.destroy();
     }
 
   },

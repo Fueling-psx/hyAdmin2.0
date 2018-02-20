@@ -1,31 +1,22 @@
-import { query as queryUsers, queryCurrent } from '../services/user';
+const initState = {
+  list: [],
+  currentUser: {}
+};
 
 export default {
   namespace: 'user',
 
   state: {
-    list: [],
-    currentUser: {},
+    ...initState
   },
-
-  effects: {
-    *fetch(_, { call, put }) {
-      const response = yield call(queryUsers);
-      yield put({
-        type: 'save',
-        payload: response,
-      });
-    },
-    *fetchCurrent(_, { call, put }) {
-      const response = yield call(queryCurrent);
-      yield put({
-        type: 'saveCurrentUser',
-        payload: response,
-      });
-    },
-  },
-
+  
   reducers: {
+    resetState(state) {
+      return {
+        ...state,
+        ...initState
+      }
+    },
     save(state, action) {
       return {
         ...state,
@@ -47,5 +38,5 @@ export default {
         },
       };
     },
-  },
+  }
 };

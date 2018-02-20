@@ -6,6 +6,7 @@ import GlobalFooter from '../components/GlobalFooter';
 import styles from './UserLayout.less';
 import logo from '../assets/logo.svg';
 import { getRoutes } from '../utils/utils';
+import {globalState} from "../app";
 
 const links = [{
   key: 'help',
@@ -54,7 +55,10 @@ class UserLayout extends React.PureComponent {
                   <Route
                     key={item.key}
                     path={item.path}
-                    component={item.component}
+                    render={() => {
+                      const Component = item.component;
+                      return globalState.isLogin ? <Redirect to="/"/> : <Component />;
+                    }}
                     exact={item.exact}
                   />
                 )

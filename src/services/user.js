@@ -1,9 +1,30 @@
-import request from '../utils/request';
+import ajax from 'utils/ajax';
 
-export async function query() {
-  return request('/api/users');
-}
 
-export async function queryCurrent() {
-  return request('/api/currentUser');
-}
+const services = {};
+
+
+services.login = function(params = {}) {
+  const path = '/System/account/login';
+  return ajax.post(path, params);
+};
+
+services.logout = function (params = {}) {
+  const path = '/System/account/logout';
+  
+  return ajax.post(path, params);
+};
+
+services.getUserInfo = function (params = {}) {
+  const path = '/System/user/getUserInfo';
+  
+  return ajax.post(path, params);
+};
+
+services.checkAuthority = function (params = {}) {
+  const path = '/System/user/checkAuth';
+  
+  return ajax.post(path, params);
+};
+
+export default services;

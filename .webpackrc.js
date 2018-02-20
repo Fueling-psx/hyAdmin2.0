@@ -5,6 +5,7 @@ export default {
     ["import", { "libraryName": "antd", "libraryDirectory": "es", "style": true }],
     ["module-resolver", {
       "alias": {
+        "src": `${__dirname}/src`,
         "app": `${__dirname}/src/app`,
         "components": `${__dirname}/src/components`,
         "routes": `${__dirname}/src/routes`,

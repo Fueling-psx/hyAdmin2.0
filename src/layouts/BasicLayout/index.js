@@ -1,5 +1,9 @@
 import UI from './UI';
-import { connect} from 'app';
+import { connect } from 'app';
+import { reloadLoginStatus} from "../../handler";
+import { routerRedux } from 'dva/router';
+import {message} from 'antd';
+import services from 'services/user';
 
 export default connect(({ user, global, loading }) => ({
   currentUser: user.currentUser,
@@ -21,15 +25,19 @@ export default connect(({ user, global, loading }) => ({
       payload: type,
     });
   },
-  handleMenuClick({dispatch, getState}, { key }) {
+  async handleMenuClick({changeModel, dispatch, getState}, { key }) {
     if (key === 'triggerError') {
       dispatch(routerRedux.push('/exception/trigger'));
       return;
     }
     if (key === 'logout') {
+      await services.logout();
+      // 更新登录态
+      await reloadLoginStatus();
       dispatch({
-        type: 'login/logout',
+        type: 'user/resetState'
       });
+      dispatch(routerRedux.push('/user/login'));
     }
   },
   handleNoticeVisibleChange({dispatch, getState}, visible) {

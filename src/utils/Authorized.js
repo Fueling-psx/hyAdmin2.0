@@ -1,11 +1,11 @@
 import RenderAuthorized from '../components/Authorized';
-import { getAuthority } from './authority';
+import {globalState} from "../app";
 
-let Authorized = RenderAuthorized(getAuthority()); // eslint-disable-line
+let Authorized = RenderAuthorized(); // eslint-disable-line
 
 // Reload the rights component
-const reloadAuthorized = () => {
-  Authorized = RenderAuthorized(getAuthority());
+const reloadAuthorized = function () {
+  Authorized.authority = globalState.isLogin;
 };
 
 export { reloadAuthorized };

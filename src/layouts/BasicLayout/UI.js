@@ -66,7 +66,6 @@ export default class BasicLayout extends React.PureComponent {
         isMobile: mobile,
       });
     });
-    this.props.fetchCurrent();
   }
   getPageTitle() {
     const { routerData, location } = this.props;

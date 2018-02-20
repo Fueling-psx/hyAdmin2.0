@@ -35,6 +35,9 @@ export default class SiderMenu extends PureComponent {
         openKeys: this.getDefaultCollapsedSubMenus(nextProps),
       });
     }
+    if (this.menus.length !== nextProps.menuData.length) {
+      this.menus = nextProps.menuData;
+    }
   }
   /**
    * Convert pathname to openKeys

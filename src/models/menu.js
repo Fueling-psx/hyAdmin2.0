@@ -20,5 +20,11 @@ export default {
         ...payload
       };
     },
+    changeMenuData(state, {payload}) {
+      return {
+        ...state,
+        menuData: payload
+      }
+    }
   },
 };

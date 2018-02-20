@@ -5,7 +5,7 @@ export default {
 
   state: {
     collapsed: false,
-    notices: [],
+    notices: []
   },
 
   effects: {
@@ -53,9 +53,8 @@ export default {
       };
     },
   },
-
   subscriptions: {
-    setup({ history }) {
+    setup({ dispatch, history }) {
       // Subscribe history(url) change, trigger `load` action if pathname is `/`
       return history.listen(({ pathname, search }) => {
         if (typeof window.ga !== 'undefined') {
@@ -63,5 +62,5 @@ export default {
         }
       });
     },
-  },
+  }
 };
