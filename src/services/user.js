@@ -27,4 +27,10 @@ services.checkAuthority = function (params = {}) {
   return ajax.post(path, params);
 };
 
+services.getRouteData = function (params = {}) {
+  const path = 'System/user/routerData';
+  
+  return ajax.post(path, params);
+};
+
 export default services;

@@ -1,14 +1,15 @@
 import dva from '../lib/index';
 
 const app = dva();
-const defaultGlobalState = {
-  isLogin: false
+const initGlobalState = {
+  isLogin: false,
+  rawRouterData: []
 };
 
 export const connect = app.connect;
 
 export const globalState = {
-  ...defaultGlobalState
+  ...initGlobalState
 };
 
 

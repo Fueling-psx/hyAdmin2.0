@@ -5,6 +5,8 @@ import { Row, Col, Card, Form, Input, Select, Icon, Button, Dropdown, Menu, Inpu
 import StandardTable from '../../components/StandardTable';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 
+import Drawer from '../../components/Drawer';
+
 import styles from './TableList.less';
 
 const FormItem = Form.Item;
@@ -74,7 +76,7 @@ const columns = [
 ];
 
 const CreateForm = Form.create()((props) => {
-  const { modalVisible, form, handleAdd, handleModalVisible } = props;
+  const { form, handleAdd } = props;
   const okHandle = () => {
     form.validateFields((err, fieldsValue) => {
       if (err) return;
@@ -82,12 +84,6 @@ const CreateForm = Form.create()((props) => {
     });
   };
   return (
-    <Modal
-      title="新建规则"
-      visible={modalVisible}
-      onOk={okHandle}
-      onCancel={() => handleModalVisible()}
-    >
       <FormItem
         labelCol={{ span: 5 }}
         wrapperCol={{ span: 15 }}
@@ -99,7 +95,6 @@ const CreateForm = Form.create()((props) => {
           <Input placeholder="请输入" />
         )}
       </FormItem>
-    </Modal>
   );
 });
 
@@ -404,10 +399,11 @@ export default class TableList extends PureComponent {
             />
           </div>
         </Card>
-        <CreateForm
-          {...parentMethods}
-          modalVisible={modalVisible}
-        />
+        <Drawer anchor="right" open={modalVisible} className={styles.drawer}>
+            <CreateForm
+              {...parentMethods}
+            />
+        </Drawer>
       </PageHeaderLayout>
     );
   }

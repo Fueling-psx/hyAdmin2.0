@@ -5,10 +5,18 @@ export async function  reloadLoginStatus() {
   const {status} = await services.checkAuthority();
   
   globalState.isLogin = status;
+  
+  return status;
+}
+
+export async function initRouterData() {
+  const {data} = await services.getRouteData();
+  globalState.rawRouterData = data;
 }
 
 export async function initGlobalEvent() {
-  await reloadLoginStatus()
+  const isLogin = await reloadLoginStatus();
+  isLogin && await initRouterData();
 }
 
 export async function initBasicData({dispatch, getState}) {

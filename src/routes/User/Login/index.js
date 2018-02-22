@@ -1,11 +1,10 @@
 import {connect} from 'app';
 import { message as Msg } from 'antd';
-import { routerRedux } from 'dva/router';
 
 import UI from './UI';
 import services from 'services/user';
 import {reloadAuthorized} from 'utils/Authorized';
-import {reloadLoginStatus, initBasicData} from "../../../handler";
+import {initBasicData, initGlobalEvent} from "../../../handler";
 
 export default connect(({login})=> {
   return {
@@ -33,15 +32,14 @@ export default connect(({login})=> {
 
     if (status === 'ok') {
       Msg.loading(message);
-      
-      // 更新登录态
-      await reloadLoginStatus();
-      // 更新准入权限
-      reloadAuthorized();
+      // 初始化事件
+      await initGlobalEvent();
       // 初始化数据
-      initBasicData({dispatch, getState})
-      // 路由跳转
-      dispatch(routerRedux.push('/'));
+      await initBasicData({dispatch, getState});
+      // 刷新 重新加载路由
+      location.reload();
+      // 更新准入权限 (更新后路由自动跳转)
+      reloadAuthorized();
       
       Msg.destroy();
     }
